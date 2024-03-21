@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <h1>BL3 Rando Run Roller</h1>
+      <h1>BL3 Random Run Roller</h1>
       <div className="roll">
         {Object.keys(roll.roll)
           .filter((k) => Object.hasOwnProperty.call(roll.roll, k))
