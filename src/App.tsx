@@ -31,7 +31,10 @@ function App() {
     setRoll(newRoll);
   }, []);
 
-  const at = useMemo(() => dayjs(roll.rolledAt), [roll]);
+  const at = useMemo(
+    () => dayjs(roll.rolledAt).format("YYYY-MM-DD HH:mm:ss"),
+    [roll],
+  );
 
   return (
     <>
@@ -49,7 +52,7 @@ function App() {
             </div>
           ))}
       </div>
-      <p>Rolled: {at.format("YYYY-MM-DD HH:mm:ss")}</p>
+      <p>Rolled: {at}</p>
       <button onClick={_reroll}>Reroll</button>
       <div className="attrib-license">
         <p>

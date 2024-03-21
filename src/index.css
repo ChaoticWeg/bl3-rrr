@@ -37,7 +37,7 @@ button {
 
 .attrib-license {
   @apply mt-12;
-  @apply text-zinc-600;
+  @apply text-zinc-600 text-sm;
 }
 
 .attrib-license a {
