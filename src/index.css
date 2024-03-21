@@ -29,8 +29,17 @@ p.roll-value {
 }
 
 button {
-  @apply px-4 py-2 rounded;
+  @apply px-4 py-2 rounded mt-2;
   @apply bg-zinc-800 text-zinc-200;
   @apply hover:bg-zinc-700 hover:text-zinc-50;
   @apply hover:shadow;
+}
+
+.attrib-license {
+  @apply mt-12;
+  @apply text-zinc-600;
+}
+
+.attrib-license a {
+  @apply text-zinc-500 hover:text-zinc-400;
 }

@@ -4,8 +4,10 @@ import "./App.css";
 import { getNewRoll } from "./random";
 import type { Roll, StoredRoll } from "./types";
 
+const STORAGE_KEY = "@bl3-rrr/roll";
+
 function _readStoredRoll(): StoredRoll | null {
-  const raw = localStorage.getItem("@bl3-rrr/roll");
+  const raw = localStorage.getItem(STORAGE_KEY);
   try {
     return JSON.parse(raw ?? "") as StoredRoll;
   } catch (err) {
@@ -13,15 +15,21 @@ function _readStoredRoll(): StoredRoll | null {
   }
 }
 
+function _getAndStoreNewRoll() {
+  const newRoll = { rolledAt: Date.now(), roll: getNewRoll() };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(newRoll));
+  return newRoll;
+}
+
 function App() {
   const [roll, setRoll] = useState<StoredRoll>(
-    _readStoredRoll() ?? { rolledAt: Date.now(), roll: getNewRoll() },
+    _readStoredRoll() ?? _getAndStoreNewRoll(),
   );
 
-  const _reroll = useCallback(
-    () => setRoll({ rolledAt: Date.now(), roll: getNewRoll() }),
-    [],
-  );
+  const _reroll = useCallback(() => {
+    const newRoll = _getAndStoreNewRoll();
+    setRoll(newRoll);
+  }, []);
 
   const at = useMemo(() => dayjs(roll.rolledAt), [roll]);
 
@@ -43,6 +51,38 @@ function App() {
       </div>
       <p>Rolled: {at.format("YYYY-MM-DD HH:mm:ss")}</p>
       <button onClick={_reroll}>Reroll</button>
+      <div className="attrib-license">
+        <p>
+          Created by{" "}
+          <a
+            href="https://github.com/ChaoticWeg"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            chaoticweg
+          </a>
+        </p>
+        <p>
+          Licensed under the{" "}
+          <a
+            href="https://github.com/ChaoticWeg/bl3-rrr/blob/main/LICENSE"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            AGPL v3
+          </a>
+        </p>
+        <p>
+          Source code available on{" "}
+          <a
+            href="https://github.com/ChaoticWeg/bl3-rrr"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            GitHub
+          </a>
+        </p>
+      </div>
     </>
   );
 }
